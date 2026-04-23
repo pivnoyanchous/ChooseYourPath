@@ -1,6 +1,6 @@
 class SamaraApp {
     constructor() {
-        this.apiBase = "";
+        this.apiBase = window.location.origin;
         this.user = JSON.parse(sessionStorage.getItem("samara_user")) || null;
         this.currentRoute = null;
         this.currentPointIndex = 0;
@@ -728,12 +728,14 @@ class SamaraApp {
         const point = this.currentRoute.pointsData[this.currentPointIndex];
         const isLastPoint = this.currentPointIndex === this.currentRoute.pointsData.length - 1;
 
+        // Если сейчас не показывается карта и для точки задана карта перехода
         if (!this.showingMap && point.nextMap) {
             this.showingMap = true;
             this.renderPoint();
             return;
         }
 
+        // Если сейчас показывается карта – просто переходим к следующей точке
         if (this.showingMap) {
             this.showingMap = false;
             this.currentPointIndex += 1;
@@ -741,6 +743,14 @@ class SamaraApp {
             return;
         }
 
+        // Если карта не нужна и это не последняя точка – идём дальше
+        if (!this.showingMap && !point.nextMap && !isLastPoint) {
+            this.currentPointIndex += 1;
+            this.renderPoint();
+            return;
+        }
+
+        // Последняя точка без карты -> викторина
         if (isLastPoint) this.startQuiz();
     }
 

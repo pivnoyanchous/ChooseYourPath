@@ -216,6 +216,11 @@ input:focus, select:focus {
     font-size: 1.03rem;
     font-weight: 600;
     padding: 14px 18px;
+    /* Убираем выход за границы */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;  /* Текст строго влево */
 }
 .custom-select-trigger::after {
     content: '\f107';
@@ -485,6 +490,41 @@ button {
 .toast-success .toast-progress { background: #22c55e; }
 .toast-error .toast-progress { background: #ef4444; }
 @keyframes toastProgress { 0% { width: 100%; } 100% { width: 0%; } }
+
+.pano-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: var(--bg-dark);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid var(--glass-border);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 15px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.fade-in {
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
 .fade-in { animation: fadeIn 0.6s ease-out forwards; }
 .slide-up { animation: slideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
